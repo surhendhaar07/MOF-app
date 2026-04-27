@@ -11,7 +11,7 @@ app.use(cors());
 const upload = multer({ storage: multer.memoryStorage() });
 
 // --- GMAIL CONFIG ---
-const EMAIL_USER = 'makkaliloruvanfoundation@gmail.com'; 
+const EMAIL_USER = 'surhendhaar07@gmail.com'; 
 const EMAIL_PASS = 'jvuqaqqqyfwuwngm'; // Get this from Google Security settings
 
 const transporter = nodemailer.createTransport({
