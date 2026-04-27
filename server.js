@@ -6,51 +6,48 @@ const AdmZip = require('adm-zip');
 const path = require('path');
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: '*' })); // Allows GitHub Pages access
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-// --- GMAIL CONFIG ---
-const EMAIL_USER = 'surhendhaar07@gmail.com'; 
-const EMAIL_PASS = 'jvuqaqqqyfwuwngm'; // Get this from Google Security settings
-
 const transporter = nodemailer.createTransport({
     service: 'gmail',
-    auth: { user: EMAIL_USER, pass: EMAIL_PASS }
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS // 16-letter App Password
+    }
 });
 
 app.post('/send-email', upload.any(), async (req, res) => {
     try {
-        const name = req.body.studentName || 'Applicant';
+        const student = req.body.studentName || 'Student';
         const zip = new AdmZip();
 
-        // 1. Pack every file into the ZIP
-        req.files.forEach((f) => {
-            // Use the field name from the frontend as the filename inside the ZIP
-            const ext = path.extname(f.originalname) || '.png';
-            const zipName = `${f.fieldname}${ext}`;
-            zip.addFile(zipName, f.buffer);
+        // 1. Pack every file received from the form into the ZIP
+        req.files.forEach(file => {
+            // The file.fieldname is the specific ID from the frontend (e.g., "Aadhar_Card")
+            const ext = path.extname(file.originalname) || '.png';
+            zip.addFile(`${file.fieldname}${ext}`, file.buffer);
         });
 
-        const zipBuffer = zip.toBuffer();
-
         const mailOptions = {
-            from: EMAIL_USER,
-            to: 'makkaliloruvanfoundation@gmail.com', // Recipient [cite: 56]
-            subject: `ZIP Application: ${name}`,
-            text: `Attached is a single ZIP file containing the Application PDF and all supporting documents for ${name}.`,
+            from: process.env.EMAIL_USER,
+            to: 'makkaliloruvanfoundation@gmail.com', // Official foundation email [cite: 56, 139]
+            subject: `MOF Application Bundle: ${student}`,
+            text: `Attached is the complete application bundle for ${student} as a single ZIP file.`,
             attachments: [{
-                filename: `${name.replace(/\s+/g, '_')}_Bundle.zip`,
-                content: zipBuffer
+                filename: `${student.replace(/\s+/g, '_')}_MOF_Documents.zip`,
+                content: zip.toBuffer()
             }]
         };
 
         await transporter.sendMail(mailOptions);
-        res.status(200).send('ZIP sent successfully');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Backend error');
+        res.status(200).send('Success');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.listen(3000, () => console.log(`Server: http://localhost:3000`));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Active on Port ${PORT}`));
