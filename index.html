@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makkalil Oruvan Foundation - Education Support Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root { --primary: #4c36e0d5; --bg: #f4f4f9; --white: #ffffff; --text: #333; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg); color: var(--text); padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: var(--white); padding: 40px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
+        .header h1 { color: var(--primary); margin: 0; font-size: 28px; }
+        .header p { margin: 5px 0; font-weight: bold; font-size: 14px; }
+        .section-title { background: #3110c742; color: var(--primary); padding: 12px; font-weight: bold; border-left: 5px solid var(--primary); margin: 25px 0 15px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full { grid-column: span 2; }
+        .form-group { display: flex; flex-direction: column; }`
+        label { font-weight: 600; margin-bottom: 8px; font-size: 13px; }
+        input[type="text"], input[type="date"], input[type="email"], input[type="number"] { padding: 10px; border: 1px solid #ccc; border-radius: 5px; outline: none; }
+        .photo-box { border: 1px solid #eee; padding: 15px; background: #fafafa; border-radius: 5px; margin-bottom: 10px; }
+        .preview { max-width: 120px; max-height: 120px; display: none; margin-top: 10px; border: 2px solid #ddd; }
+        .sig-preview { max-width: 200px; max-height: 80px; display: none; margin-top: 10px; border: 1px dashed #aaa; }
+        .file-status { color: #2e7d32; font-size: 12px; font-weight: bold; margin-top: 5px; display: none; }
+        .instructions { background: #fff9c4; padding: 20px; border-radius: 5px; font-size: 14px; margin-top: 20px; line-height: 1.6; }
+        button { background: var(--primary); color: white; border: none; padding: 15px; font-size: 18px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 30px; transition: 0.3s; }
+        button:hover { background: #26148c; }
+        #loading { display: none; text-align: center; color: var(--primary); font-weight: bold; margin-top: 15px; }
+        .avoid-break { page-break-inside: avoid; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="form-content">
+    <div class="header avoid-break">
+        <h1>MAKKALIL ORUVAN FOUNDATION</h1>
+        <p>EDUCATION SUPPORT APPLICATION FORM</p>
+        <p>West Tambaram, Chennai | +91 63825 60775</p>
+    </div>
+
+    <form id="appForm">
+        <div class="section-title avoid-break">STUDENT DETAILS</div>
+        <div class="grid avoid-break">
+            <div class="form-group full photo-box">
+                <label>Student Photo * </label>
+                <input type="file" id="f_Student_Photo" accept="image/*" onchange="prev(event, 'v1')" required>
+                <img id="v1" class="preview">
+            </div>
+            <div class="form-group"><label>Full Name * </label><input type="text" name="sName" required></div>
+            <div class="form-group"><label>Date Of Birth * </label><input type="date" name="sDob" required></div>
+            <div class="form-group"><label>Phone Number * </label><input type="text" name="sPhone" required></div>
+            <div class="form-group"><label>Email Address * </label><input type="email" name="sEmail" required></div>
+            <div class="form-group full"><label>Address Street * </label><input type="text" name="sAddr" required></div>
+            <div class="form-group"><label>City * </label><input type="text" name="sCity" required></div>
+            <div class="form-group"><label>Pincode * </label><input type="text" name="sPin" required></div>
+        </div>
+
+        <div class="section-title avoid-break">SCHOOL & EDUCATION DETAILS</div>
+        <div class="grid avoid-break">
+            <div class="form-group full"><label>School Name * </label><input type="text" name="schName" required></div>
+            <div class="form-group"><label>Std & Sec * </label><input type="text" name="schStd" required></div>
+            <div class="form-group"><label>Total School Fees (Rs.) * </label><input type="number" name="schTotal" required></div>
+            <div class="form-group"><label>Amount Paid (Rs.) * </label><input type="number" name="schPaid" required></div>
+            <div class="form-group"><label>Pending Fees (Rs.) * </label><input type="number" name="schPending" required></div>
+        </div>
+
+        <div class="section-title avoid-break">PARENT / GUARDIAN DETAILS</div>
+        <div class="photo-box avoid-break">
+            <label>Father's Photo * </label>
+            <input type="file" id="f_Father_Photo" accept="image/*" onchange="prev(event, 'v2')" required>
+            <img id="v2" class="preview">
+            <div class="grid" style="margin-top:10px;">
+                <div class="form-group"><label>Father Name * </label><input type="text" name="fName" required></div>
+                <div class="form-group"><label>Occupation * </label><input type="text" name="fOcc" required></div>
+            </div>
+        </div>
+
+        <div class="photo-box avoid-break" style="margin-top:15px;">
+            <label>Mother's Photo * </label>
+            <input type="file" id="f_Mother_Photo" accept="image/*" onchange="prev(event, 'v3')" required>
+            <img id="v3" class="preview">
+            <div class="grid" style="margin-top:10px;">
+                <div class="form-group"><label>Mother Name * </label><input type="text" name="mName" required></div>
+                <div class="form-group"><label>Occupation * </label><input type="text" name="mOcc" required></div>
+            </div>
+        </div>
+
+        <div class="photo-box avoid-break" style="margin-top:15px;">
+            <label>Guardian's Photo (Optional) </label>
+            <input type="file" id="f_Guardian_Photo" accept="image/*" onchange="prev(event, 'v4')">
+            <img id="v4" class="preview">
+            <div class="form-group" style="margin-top:10px;"><label>Guardian Name </label><input type="text" name="gName"></div>
+        </div>
+
+        <div class="section-title avoid-break">DOCUMENTS TO BE ATTACHED</div>
+        <div class="grid avoid-break">
+            <div class="form-group"><label>Aadhar Card * </label><input type="file" id="f_Aadhar_Card" onchange="stat(event, 'n1')" required><span id="n1" class="file-status"></span></div>
+            <div class="form-group"><label>School Bonafide * </label><input type="file" id="f_Bonafide_Cert" onchange="stat(event, 'n2')" required><span id="n2" class="file-status"></span></div>
+            <div class="form-group"><label>Latest Fee Receipt * </label><input type="file" id="f_Fee_Receipt" onchange="stat(event, 'n3')" required><span id="n3" class="file-status"></span></div>
+            <div class="form-group"><label>Last Exam Marksheet * </label><input type="file" id="f_Marksheet" onchange="stat(event, 'n4')" required><span id="n4" class="file-status"></span></div>
+        </div>
+
+        <div class="section-title avoid-break">DECLARATION & SIGNATURES</div>
+        <div class="grid avoid-break">
+            <div class="form-group"><label>Student Signature * </label><input type="file" id="f_Student_Signature" accept="image/*" onchange="prev(event, 's1')" required><img id="s1" class="sig-preview"></div>
+            <div class="form-group"><label>Father Signature * </label><input type="file" id="f_Father_Signature" accept="image/*" onchange="prev(event, 's2')" required><img id="s2" class="sig-preview"></div>
+            <div class="form-group"><label>Mother Signature * </label><input type="file" id="f_Mother_Signature" accept="image/*" onchange="prev(event, 's3')" required><img id="s3" class="sig-preview"></div>
+            <div class="form-group"><label>Guardian Signature </label><input type="file" id="f_Guardian_Signature" accept="image/*" onchange="prev(event, 's4')"><img id="s4" class="sig-preview"></div>
+        </div>
+
+        <button type="submit" id="sub">SUBMIT APPLICATION</button>
+        <p id="loading">Compressing files and generating ZIP bundle...</p>
+    </form>
+</div>
+
+<script>
+    function prev(e, id) { 
+        const r = new FileReader(); 
+        r.onload = () => { const i = document.getElementById(id); i.src = r.result; i.style.display = 'block'; }; 
+        r.readAsDataURL(e.target.files[0]); 
+    }
+    function stat(e, id) { 
+        const s = document.getElementById(id); 
+        s.textContent = "✓ Linked: " + e.target.files[0].name; 
+        s.style.display = 'block'; 
+    }
+
+    document.getElementById('appForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('sub');
+        const load = document.getElementById('loading');
+        
+        btn.style.display = 'none';
+        load.style.display = 'block';
+
+        // 1. Generate PDF
+        const opt = { margin: 10, filename: 'Form.pdf', html2canvas: { scale: 2, scrollY: 0 }, jsPDF: { unit: 'mm', format: 'a4' } };
+        const pdf = await html2pdf().set(opt).from(document.getElementById('form-content')).output('blob');
+
+        // 2. Build FormData
+        const fd = new FormData();
+        fd.append('studentName', document.querySelector('input[name="sName"]').value);
+        fd.append('Application_Form', pdf, 'Application_Form.pdf');
+
+        // Capture all file inputs by ID
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+            if (input.files[0]) {
+                const key = input.id.replace('f_', '');
+                fd.append(key, input.files[0]);
+            }
+        });
+
+        try {
+            const res = await fetch('http://localhost:3000/send-email', { method: 'POST', body: fd });
+            if (res.ok) alert('Application sent! Check your email for the ZIP bundle.');
+            else alert('Error submitting form.');
+        } catch (err) { alert('Server unavailable.'); }
+        finally { btn.style.display = 'block'; load.style.display = 'none'; }
+    });
+</script>
+</body>
+</html>
