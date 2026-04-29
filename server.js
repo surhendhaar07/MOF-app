@@ -32,7 +32,7 @@ app.post('/send-email', upload.any(), async (req, res) => {
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
-            to: 'makkaliloruvanfoundation@gmail.com', // Official foundation email [cite: 56, 139]
+            to: 'surhendhaar07@gmail.com', // Official foundation email [cite: 56, 139]
             subject: `MOF Application Bundle: ${student}`,
             text: `Attached is the complete application bundle for ${student} as a single ZIP file.`,
             attachments: [{
