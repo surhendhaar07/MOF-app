@@ -177,7 +177,7 @@
         });
 
         try {
-            const res = await fetch('https://mof-app.onrender.com', { method: 'POST', body: fd });
+            const res = await fetch('https://mof-app.onrender.com/send-email', { method: 'POST', body: fd });
             if (res.ok) alert('Application sent successfully!');
             else alert('Submission error.');
         } catch (err) { alert('Server connection failed.'); }
